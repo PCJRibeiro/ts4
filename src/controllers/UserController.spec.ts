@@ -54,4 +54,28 @@ describe('UserController', () => {
         expect(mockResponse.state.status).toBe(400)
         expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! email obrigatório' })
     })
+    it('Deve deletar o usuário com o nome apresentado', ()=> {
+        const mockRequest = {
+            body: {
+                name: 'nath',
+                email: 'nath@test.com'
+            }
+        } as Request
+        const mockResponse = makeMockResponse()
+        userController.deleteUser(mockRequest, mockResponse)
+        expect(mockResponse.state.status).toBe(200)
+        expect(mockResponse.state.json).toMatchObject({ message: 'Usuário deletado' })
+    })
+    it('Deve exibir um erro por não receber o nome do usuário que sera deletado',()=>{
+        const mockRequest = {
+            body: {
+                name: '',
+                email: 'nath@test.com'
+            }
+        } as Request
+        const mockResponse = makeMockResponse()
+        userController.deleteUser(mockRequest, mockResponse)
+        expect(mockResponse.state.status).toBe(400)
+        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! Name obrigatório' })
+    })
 })
